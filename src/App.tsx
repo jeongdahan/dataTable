@@ -1,24 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useMemo } from "react";
+import { Routes, Route } from "react-router-dom";
+import { CurrencyProvider } from "src/core/providers/CurrencyProvider";
+import { MarketPage, BookmarkPage } from "src/components/pages";
+import { Nav } from "src/components/UI/molecules";
 
 function App() {
+  const navList = useMemo(
+    () => [
+      { to: "/market?", text: "가장자산 시세목록", active: true },
+      { to: "/bookmark", text: "북마크 목록" },
+    ],
+    []
+  );
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Nav list={navList} />
+      <CurrencyProvider>
+        <Routes>
+          <Route path="/" element={<MarketPage />}></Route>
+          <Route path="/market" element={<MarketPage />}></Route>
+          <Route path="/bookmark" element={<BookmarkPage />}></Route>
+        </Routes>
+      </CurrencyProvider>
     </div>
   );
 }
